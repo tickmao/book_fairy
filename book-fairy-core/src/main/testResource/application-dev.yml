@@ -1,0 +1,146 @@
+# Tomcat
+server:
+    port: 8083
+    context-path: /hall-api
+    connection-timeout: 5000
+    #session-timeout: 30
+    tomcat:
+        uri-encoding: UTF-8  # character encoding to use for URL decoding
+        max-threads: 1000
+        min-spare-threads: 30
+
+#Spring 配置
+spring:
+    profiles: dev # 开发环境配置
+    redis:
+        shiroDataBase: 0
+        database: 1
+        host: 127.0.0.1
+        password: zzqx@123456
+        port: 6379
+        timeout: 3000
+        pool:
+            max-active: 8
+            max-total: 50
+            max-wait-millis: 15000
+            test-on-borrow: true
+            max-idle: 10
+            max-wait: -1
+            min-idle: 0
+
+#日志记录
+logging:
+    config: classpath:logback-admin.xml
+    #config: classpath:logback-spring.xml
+    #path: d:/log
+    file: logs/hall-core
+
+log:
+    level:
+        root: info
+        my: debug
+    file: logs/hall-core.log
+    maxsize: 30MB
+
+
+#数据库配置
+# ======================================================= mysql =======================================================
+mysqlConn:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://118.24.18.70:3306/business_hall?useUnicode=true&characterEncoding=UTF-8&useSSL=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+    username: zzqx
+    password: zzqx@123456
+
+# ======================================================= druid =======================================================
+
+#数据源配置
+dataSource:
+    # 初始化时建立物理连接的个数。初始化发生在显示调用init方法，或者第一次getConnection时
+    initialSize: 1 #连接池启动时创建的初始化连接数量（默认为0）
+    minIdle: 20  #连接池中最小的空闲的连接数，低于这个数量会被创建新的连接（默认为0，调整为5，
+                 #该参数越接近maxIdle，性能越好，因为连接的创建和销毁，都是需要消耗资源的；
+                 #但是不能太大，因为在机器很空闲的时候，也会创建低于minidle个数的连接，类似于jvm参数中的Xmn设置）
+    maxActive: 20 #连接池中最大的空闲的连接数，超过的空闲连接将被释放，如果设置为负数表示不限制
+              #（默认为8个，maxIdle不能设置太小，因为假如在高负载的情况下，连接的打开时间比关闭的时间快，
+              #会引起连接池中idle的个数 上升超过maxIdle，而造成频繁的连接销毁和创建，类似于jvm参数中的Xmx设置)
+    maxWait: 60000 #最大等待时间，当没有可用连接时，连接池等待连接释放的最大时间，超过该时间限制会抛出异常，
+               #如果设置-1表示无限等待（默认为无限，调整为60000ms，避免因线程池不够用，而导致请求被无限制挂起）
+    timeBetweenEvictionRunsMillis: 60000 #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    minEvictableIdleTimeMillis: 300000 #配置一个连接在池中最小生存的时间，单位是毫秒
+    validationQuery: SELECT 1 FROM DUAL #  验证连接有效与否的SQL，不同的数据配置不同
+    #  建议配置为true，不影响性能，并且保证安全性。
+    #  申请连接的时候检测，如果空闲时间大于
+    #  timeBetweenEvictionRunsMillis，
+    #  执行validationQuery检测连接是否有效。
+    testWhileIdle: true
+    #  申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+    #  这里建议配置为TRUE，防止取到的连接不可用
+    testOnBorrow: false
+    testOnReturn: false #  归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+    #  是否缓存preparedStatement，也就是PSCache。
+    #  PSCache对支持游标的数据库性能提升巨大，比如说oracle。
+    #  在mysql5.5以下的版本中没有PSCache功能，建议关闭掉。
+    #  作者在5.5版本中使用PSCache，通过监控界面发现PSCache有缓存命中率记录，
+    #  该应该是支持PSCache。
+    #  打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true # 打开PSCache，并且指定每个连接上PSCache的大小
+    maxPoolPreparedStatementPerConnectionSize: 20
+    #  属性类型是字符串，通过别名的方式配置扩展插件，
+    #  常用的插件有：
+    #  监控统计用的filter:stat
+    #  日志用的filter:log4j
+    #  防御sql注入的filter:wall
+    filters: stat,wall,log4j # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    connectionProperties=druid.stat.mergeSql: true;druid.stat.slowSqlMillis=5000 # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    # 访问的用户名
+    loginUsername: ason
+    # 访问的密码
+    loginPassword: ason
+
+# ==================================================== MybatisPlus ====================================================
+mybatisPlus:
+    globalConfig:
+        #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+        id-type: 2
+        #数据库类型
+        #db-type: sqlserver2005
+        #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+        field-strategy: 1
+        #驼峰下划线转换
+        db-column-underline: true
+        #刷新mapper 调试神器
+        refresh-mapper: true
+        #数据库大写下划线转换
+        capital-mode: true
+        # Sequence序列接口实现类配置
+        #key-generator: com.baomidou.mybatisplus.incrementer.OracleKeyGenerator
+        #逻辑删除配置（下面3个配置）
+        logic-delete-value: 0
+        logic-not-delete-value: 1
+        #sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
+        #自定义填充策略接口实现
+        #meta-object-handler: com.baomidou.springboot.MyMetaObjectHandler
+    configuration:
+        #配置返回数据库(column下划线命名&&返回java实体是驼峰命名)，自动匹配无需as（没开启这个，SQL需要写as： select user_id as userId）
+        map-underscore-to-camel-case: true
+        cache-enabled: false
+        #配置JdbcTypeForNull, oracle数据库必须配置,注意：单引号
+        #jdbc-type-for-null: 'null'
+
+#系统消息通知 配置
+system:
+    msg:
+        addMsg: 增加成功
+        editMsg: 修改成功
+        removeMsg: 删除成功
+    upload:
+        file: d:\upload\file #阿姨项目的图片的上传地址
+        img: d:\upload\img #阿姨项目的图片的上传地址
+    publicPath:  /uwcost/register|/uwcost/active|/uwcost/login|/uwcost/verifyMailAndCode|/uwcost/editpwd|/uwcost/verifyCode|/api/monitoring/** #公共地址
+    serverNamePortPath: http://localhost:8083
+    #serverNamePortPath: http://58.51.90.231:8083
+    #serverNamePortPath: http://file.ivfcn.com
+
+
+
+
