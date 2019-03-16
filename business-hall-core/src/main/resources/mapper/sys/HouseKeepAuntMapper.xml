@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.business.hall.sys.dao.HouseKeepAuntDao" >
+  <select id="selectByPrimaryKey" resultType="com.business.hall.sys.model.HouseKeepAunt" parameterType="java.lang.Integer" >
+    select * from yz_house_keep_aunt
+    where hka_id = #{hkaId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from yz_house_keep_aunt
+    where hka_id = #{hkaId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.business.hall.sys.model.HouseKeepAunt" >
+    insert into yz_house_keep_aunt (hka_id, hka_name, hka_phone, hka_age,
+      hki_id, hks_id, hka_address, hka_work_years, hka_work_status,
+      hka_work_content, hka_family_status, hka_birth_place, 
+      hka_treatment, hka_recommend, aunt_label_id, 
+      hka_identity_card, hka_identity_card_photo, 
+      hka_life_photo, hka_remark, create_time, 
+      update_time)
+    values (#{hkaId,jdbcType=INTEGER}, #{hkaName,jdbcType=VARCHAR}, #{hkaPhone,jdbcType=VARCHAR}, #{hkaAge,jdbcType=INTEGER},
+      #{hkiId,jdbcType=INTEGER}, #{hksId,jdbcType=INTEGER}, #{hkaAddress,jdbcType=VARCHAR}, #{hkaWorkYears,jdbcType=INTEGER}, #{hkaWorkStatus,jdbcType=VARCHAR},
+      #{hkaWorkContent,jdbcType=VARCHAR}, #{hkaFamilyStatus,jdbcType=VARCHAR}, #{hkaBirthPlace,jdbcType=VARCHAR}, 
+      #{hkaTreatment,jdbcType=INTEGER}, #{hkaRecommend,jdbcType=VARCHAR}, #{auntLabelId,jdbcType=INTEGER}, 
+      #{hkaIdentityCard,jdbcType=VARCHAR}, #{hkaIdentityCardPhoto,jdbcType=VARCHAR}, 
+      #{hkaLifePhoto,jdbcType=VARCHAR}, #{hkaRemark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.business.hall.sys.model.HouseKeepAunt" >
+    insert into yz_house_keep_aunt
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="hkaId != null" >
+        hka_id,
+      </if>
+      <if test="hkaName != null" >
+        hka_name,
+      </if>
+      <if test="hkaPhone != null" >
+        hka_phone,
+      </if>
+      <if test="hkaAge != null" >
+        hka_age,
+      </if>
+      <if test="hkiId != null" >
+        hki_id,
+      </if>
+      <if test="hksId != null" >
+        hks_id,
+      </if>
+      <if test="hkaAddress != null" >
+        hka_address,
+      </if>
+      <if test="hkaWorkYears != null" >
+        hka_work_years,
+      </if>
+      <if test="hkaWorkStatus != null" >
+        hka_work_status,
+      </if>
+      <if test="hkaWorkContent != null" >
+        hka_work_content,
+      </if>
+      <if test="hkaFamilyStatus != null" >
+        hka_family_status,
+      </if>
+      <if test="hkaBirthPlace != null" >
+        hka_birth_place,
+      </if>
+      <if test="hkaTreatment != null" >
+        hka_treatment,
+      </if>
+      <if test="hkaRecommend != null" >
+        hka_recommend,
+      </if>
+      <if test="auntLabelId != null" >
+        aunt_label_id,
+      </if>
+      <if test="hkaIdentityCard != null" >
+        hka_identity_card,
+      </if>
+      <if test="hkaIdentityCardPhoto != null" >
+        hka_identity_card_photo,
+      </if>
+      <if test="hkaLifePhoto != null" >
+        hka_life_photo,
+      </if>
+      <if test="hkaRemark != null" >
+        hka_remark,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="hkaId != null" >
+        #{hkaId,jdbcType=INTEGER},
+      </if>
+      <if test="hkaName != null" >
+        #{hkaName,jdbcType=VARCHAR},
+      </if>
+      <if test="hkaPhone != null" >
+        #{hkaPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="hkaAge != null" >
+        #{hkaAge,jdbcType=INTEGER},
+      </if>
+      <if test="hkiId != null" >
+        #{hkiId,jdbcType=INTEGER},
+      </if>
+      <if test="hksId != null" >
+        #{hksId,jdbcType=INTEGER},
+      </if>
+      <if test="hkaAddress != null" >
+        #{hkaAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="hkaWorkYears != null" >
+        #{hkaWorkYears,jdbcType=INTEGER},
+      </if>
+      <if test="hkaWorkStatus != null" >
+        #{hkaWorkStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="hkaWorkContent != null" >
+        #{hkaWorkContent,jdbcType=VARCHAR},
+      </if>
+      <if test="hkaFamilyStatus != null" >
+        #{hkaFamilyStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="hkaBirthPlace != null" >
+        #{hkaBirthPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="hkaTreatment != null" >
+        #{hkaTreatment,jdbcType=INTEGER},
+      </if>
+      <if test="hkaRecommend != null" >
+        #{hkaRecommend,jdbcType=VARCHAR},
+      </if>
+      <if test="auntLabelId != null" >
+        #{auntLabelId,jdbcType=INTEGER},
+      </if>
+      <if test="hkaIdentityCard != null" >
+        #{hkaIdentityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="hkaIdentityCardPhoto != null" >
+        #{hkaIdentityCardPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="hkaLifePhoto != null" >
+        #{hkaLifePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="hkaRemark != null" >
+        #{hkaRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.business.hall.sys.model.HouseKeepAunt" >
+    update yz_house_keep_aunt
+    <set >
+      <if test="hkaName != null" >
+        hka_name = #{hkaName,jdbcType=VARCHAR},
+      </if>
+      <if test="hkaPhone != null" >
+        hka_phone = #{hkaPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="hkaAge != null" >
+        hka_age = #{hkaAge,jdbcType=INTEGER},
+      </if>
+      <if test="hkiId != null" >
+        hki_id = #{hkiId,jdbcType=INTEGER},
+      </if>
+      <if test="hksId != null" >
+        hks_id = #{hksId,jdbcType=INTEGER},
+      </if>
+      <if test="hkaAddress != null" >
+        hka_address = #{hkaAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="hkaWorkYears != null" >
+        hka_work_years = #{hkaWorkYears,jdbcType=INTEGER},
+      </if>
+      <if test="hkaWorkStatus != null" >
+        hka_work_status = #{hkaWorkStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="hkaWorkContent != null" >
+        hka_work_content = #{hkaWorkContent,jdbcType=VARCHAR},
+      </if>
+      <if test="hkaFamilyStatus != null" >
+        hka_family_status = #{hkaFamilyStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="hkaBirthPlace != null" >
+        hka_birth_place = #{hkaBirthPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="hkaTreatment != null" >
+        hka_treatment = #{hkaTreatment,jdbcType=INTEGER},
+      </if>
+      <if test="hkaRecommend != null" >
+        hka_recommend = #{hkaRecommend,jdbcType=VARCHAR},
+      </if>
+      <if test="auntLabelId != null" >
+        aunt_label_id = #{auntLabelId,jdbcType=INTEGER},
+      </if>
+      <if test="hkaIdentityCard != null" >
+        hka_identity_card = #{hkaIdentityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="hkaIdentityCardPhoto != null" >
+        hka_identity_card_photo = #{hkaIdentityCardPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="hkaLifePhoto != null" >
+        hka_life_photo = #{hkaLifePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="hkaRemark != null" >
+        hka_remark = #{hkaRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where hka_id = #{hkaId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.business.hall.sys.model.HouseKeepAunt" >
+    update yz_house_keep_aunt
+    set hka_name = #{hkaName,jdbcType=VARCHAR},
+      hka_phone = #{hkaPhone,jdbcType=VARCHAR},
+      hka_age = #{hkaAge,jdbcType=INTEGER},
+      hki_id = #{hkiId,jdbcType=INTEGER},
+      hks_id = #{hksId,jdbcType=INTEGER},
+      hka_address = #{hkaAddress,jdbcType=VARCHAR},
+      hka_work_years = #{hkaWorkYears,jdbcType=INTEGER},
+      hka_work_status = #{hkaWorkStatus,jdbcType=VARCHAR},
+      hka_work_content = #{hkaWorkContent,jdbcType=VARCHAR},
+      hka_family_status = #{hkaFamilyStatus,jdbcType=VARCHAR},
+      hka_birth_place = #{hkaBirthPlace,jdbcType=VARCHAR},
+      hka_treatment = #{hkaTreatment,jdbcType=INTEGER},
+      hka_recommend = #{hkaRecommend,jdbcType=VARCHAR},
+      aunt_label_id = #{auntLabelId,jdbcType=INTEGER},
+      hka_identity_card = #{hkaIdentityCard,jdbcType=VARCHAR},
+      hka_identity_card_photo = #{hkaIdentityCardPhoto,jdbcType=VARCHAR},
+      hka_life_photo = #{hkaLifePhoto,jdbcType=VARCHAR},
+      hka_remark = #{hkaRemark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where hka_id = #{hkaId,jdbcType=INTEGER}
+  </update>
+
+  <sql id="selectWhere">
+    <where>
+      <if test="hksId != null" > <!--  家政商店id  -->
+        and hks_id = #{hksId,jdbcType=INTEGER}
+      </if>
+      <if test="hkiId != null" > <!--  家政项目id  -->
+        and hki_id = #{hkiId,jdbcType=INTEGER}
+      </if>
+      <if test="hkaAgeBegin != null and hkaAgeEnd !=null" ><!--  年龄  -->
+        and hka_age BETWEEN #{hkaAgeBegin,jdbcType=INTEGER} and #{hkaAgeEnd,jdbcType=INTEGER}
+      </if>
+      <if test="hkaBirthPlace != null" ><!--  籍贯  -->
+        and hka_birth_place = #{hkaBirthPlace,jdbcType=VARCHAR}
+      </if>
+      <if test="hkaAddress != null" ><!--  住址  -->
+        and hka_address LIKE CONCAT("%", #{hkaAddress,jdbcType=VARCHAR}, "%")
+      </if>
+      <if test="hkaTreatmentBegin != null and hkaTreatmentEnd !=null" ><!--  待遇  -->
+        and hka_treatment BETWEEN #{hkaTreatmentBegin,jdbcType=INTEGER} and #{hkaTreatmentEnd,jdbcType=INTEGER}
+      </if>
+      <if test="hkaName != null" ><!--  名称  -->
+        and hka_name like CONCAT("%", #{hkaName,jdbcType=VARCHAR}, "%")
+      </if>
+      <if test="hkaPhone != null" ><!--  手机  -->
+        and hka_phone = #{hkaPhone,jdbcType=VARCHAR}
+      </if>
+      <if test="hkaWorkYearsBegin != null and hkaWorkYearsEnd !=null" ><!--  工作年限  -->
+        and hka_work_years BETWEEN #{hkaWorkYearsBegin,jdbcType=INTEGER} and #{hkaWorkYearsEnd,jdbcType=INTEGER}
+      </if>
+      <if test="hkaFamilyStatus != null" ><!--  hka_family_status  -->
+        and hka_family_status = #{hkaFamilyStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="auntLabelId != null" ><!--  阿姨评价标签  -->
+        and aunt_label_id = #{auntLabelId,jdbcType=INTEGER}
+      </if>
+      <if test="hkaIdentityCard != null" ><!--  身份证编码  -->
+        and hka_identity_card = #{hkaIdentityCard,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+
+  <!--  通过基本条件查询家政阿姨列表  -->
+  <select id="selectBySimpleCondition" resultType="com.business.hall.sys.model.HouseKeepAunt" >
+    select *
+    from yz_house_keep_aunt
+    <include refid="selectWhere" />
+    ORDER BY hka_id ASC
+    <if test="beginNum != null and pageSize != null" >
+      limit #{beginNum}, #{pageSize}
+    </if>
+  </select>
+
+  <select id="countBySimpleCondition" resultType="java.lang.Integer">
+    select COUNT(*)
+    from yz_house_keep_aunt
+    <include refid="selectWhere" />
+  </select>
+
+</mapper>

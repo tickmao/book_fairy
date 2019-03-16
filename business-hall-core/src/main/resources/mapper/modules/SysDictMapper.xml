@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.business.hall.modules.mapper.SysDictMapper">
+
+    <!-- 开启二级缓存 -->
+    <!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
+
+    <!-- 拓展查询 -->
+    <select id="selectSysDictByConditions" parameterType="com.business.hall.modules.entity.SysDict" resultType="com.business.hall.modules.entity.SysDict">
+        SELECT *
+        from sys_dict
+        <where>
+            <if test="name != null">
+                and name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="configType != null" >
+                and config_type = #{configType,jdbcType=VARCHAR}
+            </if>
+            <if test="value != null" >
+                and value = #{value,jdbcType=VARCHAR}
+            </if>
+            <if test="parentValue != null" >
+                and parent_value = #{parentValue,jdbcType=INTEGER}
+            </if>
+            <if test="createTime != null">
+                and start_time = #{createTime,jdbcType=TIME}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime,jdbcType=TIME}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMax" resultType="java.util.Map">
+            SELECT max(`value`) AS 'value' ,max(`order`) AS 'order' FROM sys_dict;
+    </select>
+
+</mapper>
