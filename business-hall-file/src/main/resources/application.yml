@@ -1,0 +1,25 @@
+spring:
+    # 环境 dev|test|pro/linux
+    profiles:
+        active: dev #启用配置文件
+
+    http:
+        multipart: #文件上传配置
+            max-file-size: 100MB
+            max-request-size: 100MB
+            enabled: true
+
+    jackson:
+        time-zone: GMT+8
+        date-format: yyyy-MM-dd HH:mm:ss
+        joda-date-time-format: yyyy-MM-dd HH:mm:ss
+
+    resources: # 静态资源的路径
+        static-locations: classpath:/static/,classpath:/views/
+
+#multipart:
+#    enabled: true
+
+
+
+

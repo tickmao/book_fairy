@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+	<script type="text/javascript">
+        window.onload = function () {
+            var data = location.hash.substr(1);
+            data = eval("(" + decodeURIComponent(data) + ")");
+            top.document.getElementById("test1").style.height = data.height + 'px';
+            //调用父页面方法，可不写
+            top.callback(data);
+        }
+    </script>
+		
+		
+	</body>
+</html>
