@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">
+</head>
+<body>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	<form class="form-horizontal" onsubmit="return false" id="form">
+		<fieldset>
+			<input type="hidden" id="id" name="id">
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>atCode</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='atCode' type='text' name='atCode' id='atCode' data-bv-notempty='true' data-bv-notempty-message='atCode 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>atName</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='atName' type='text' name='atName' id='atName' data-bv-notempty='true' data-bv-notempty-message='atName 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>ptId</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='ptId' type='text' name='ptId' id='ptId' data-bv-notempty='true' data-bv-notempty-message='ptId 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>atRightCode</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='atRightCode' type='text' name='atRightCode' id='atRightCode' data-bv-notempty='true' data-bv-notempty-message='atRightCode 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>atValueType</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='atValueType' type='text' name='atValueType' id='atValueType' data-bv-notempty='true' data-bv-notempty-message='atValueType 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>unId</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='unId' type='text' name='unId' id='unId' data-bv-notempty='true' data-bv-notempty-message='unId 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>unName</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='unName' type='text' name='unName' id='unName' data-bv-notempty='true' data-bv-notempty-message='unName 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>atAddTime</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='atAddTime' type='text' name='atAddTime' id='atAddTime' data-bv-notempty='true' data-bv-notempty-message='atAddTime 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>atEditTime</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='atEditTime' type='text' name='atEditTime' id='atEditTime' data-bv-notempty='true' data-bv-notempty-message='atEditTime 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>atStatus</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='atStatus' type='text' name='atStatus' id='atStatus' data-bv-notempty='true' data-bv-notempty-message='atStatus 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>atNote</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='atNote' type='text' name='atNote' id='atNote' data-bv-notempty='true' data-bv-notempty-message='atNote 不能为空'>
+				</div>
+			</div>
+
+
+
+			<div class="form-actions">
+				<div class="row" align="center">
+					<div class="col-md-12">
+					    <button class="btn btn-primary" onclick="location.href='scAttributesList.html'">返回</button>
+						<button class="btn btn-primary" type="submit" onclick="update()">
+							<i class="fa fa-save"></i> 保存
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
+</div>
+	<script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="../../js/jq.js"></script>
+	<script type="text/javascript" src="../../js/plugin/bootstrapvalidator/bootstrapValidator.min.js"></script>
+	<script type="text/javascript" src="../../js/common.js"></script>
+	<script type="text/javascript" src="../../layui/layui.js"></script>
+	<script type="text/javascript">
+		layui.use(['layer','laydate'], function(){
+		    var layer = layui.layer;
+		});
+		
+		initData();
+		
+		function initData(){
+			var id = getUrlParam("id");
+			if(id != ""){
+				$.ajax({
+					type : 'get',
+					url : '/scAttributess/'+id,
+					async : false,
+					success : function(data) {
+						$('#atCode').val(data.atCode);
+						$('#atName').val(data.atName);
+						$('#ptId').val(data.ptId);
+						$('#atRightCode').val(data.atRightCode);
+						$('#atValueType').val(data.atValueType);
+						$('#unId').val(data.unId);
+						$('#unName').val(data.unName);
+						$('#atAddTime').val(data.atAddTime);
+						$('#atEditTime').val(data.atEditTime);
+						$('#atStatus').val(data.atStatus);
+						$('#atNote').val(data.atNote);
+
+					}
+				});
+			}
+		}
+
+		function update() {
+			$('#form').bootstrapValidator();
+			var bootstrapValidator = $("#form").data('bootstrapValidator');
+			bootstrapValidator.validate();
+		    if(!bootstrapValidator.isValid()){
+			   return;
+		    }
+		    
+		    var formdata = $("#form").serializeObject();
+
+			$.ajax({
+				type : 'put',
+				url : '/scAttributess',
+				contentType: "application/json; charset=utf-8",  
+				data : JSON.stringify(formdata),
+				success : function(data) {
+					layer.msg("修改成功", {shift: -1, time: 1000}, function(){
+                        location.href = "scAttributesList.html";
+                    });
+				}
+			});
+		}
+		
+	</script>
+</body>
+</html>
