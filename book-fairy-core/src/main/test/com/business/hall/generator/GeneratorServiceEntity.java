@@ -22,7 +22,7 @@ public class GeneratorServiceEntity {
     public void generateCode() {
         String packageName = "com.book.fairy.modules";
         boolean serviceNameStartWithI = false;//user -> UserService, 设置成true: user -> IUserService
-        generateByTables(serviceNameStartWithI, packageName, "section_books","section_chapters","section_details");//"sys_role_user","sys_role_permission", "sys_role","sys_permission","sys_logs"
+        generateByTables(serviceNameStartWithI, packageName, "t_b_email_message");//"sys_role_user","sys_role_permission", "sys_role","sys_permission","sys_logs"
     }
 
     private void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) {

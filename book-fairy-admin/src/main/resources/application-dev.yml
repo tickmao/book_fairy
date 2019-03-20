@@ -33,13 +33,13 @@ logging:
     config: classpath:logback-admin.xml
     #path: d:/log
     #file: d:/logs/wind-api
-    file: logs/hall-core
+    file: logs/book-core
 
 log:
     level:
         root: info
         my: debug
-    file: logs/hall-core.log
+    file: logs/book-core.log
     maxsize: 30MB
 
 
