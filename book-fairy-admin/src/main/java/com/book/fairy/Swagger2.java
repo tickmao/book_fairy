@@ -23,37 +23,33 @@ public class Swagger2 {
     @Bean
     public Docket business_api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.book.fairy.controller.modules"))
-                //.apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))//加了ApiOperation注解的方法，生成接口文档
-                .paths(PathSelectors.ant("/api/**"))
-                //.paths(PathSelectors.any())
-                .build()
-                .groupName("业务接口文档V4.4")
-                .pathMapping("/")
-                .apiInfo(apiInfo("业务接口文档V1.0","文档中可以查询及测试接口调用参数和结果","1.0"));
+         .apiInfo(apiInfo())
+         .select()
+         .apis(RequestHandlerSelectors.basePackage("com.book.fairy"))
+         .paths(PathSelectors.any())
+         .build();
     }
 
-    @Bean
-    public Docket sys_api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.book.fairy.controller.sys"))
-                .paths(PathSelectors.regex("^/[^(api)].*$"))
-                .build()
-                .groupName("系统接口文档V4.4")
-                .pathMapping("/")
-                .apiInfo(apiInfo("系统接口文档V1.0","文档中可以查询及测试接口调用参数和结果","1.0"));
-    }
+//    @Bean
+//    public Docket sys_api() {
+//        return new Docket(DocumentationType.SWAGGER_2)
+//                .select()
+//                .apis(RequestHandlerSelectors.basePackage("com.book.fairy.controller.sys"))
+//                .paths(PathSelectors.regex("^/[^(api)].*$"))
+//                .build()
+//                .groupName("系统接口文档V4.4")
+//                .pathMapping("/")
+//                .apiInfo(apiInfo("系统接口文档V1.0","文档中可以查询及测试接口调用参数和结果","1.0"));
+//    }
 
-    private ApiInfo apiInfo(String name,String description,String version) {
+    private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title(name)
-                .description(description)
-                .termsOfServiceUrl("http://localhost:8083/login.html")
-                .contact("yz-he")
-                .version(version)
-                .build();
+                .title("Spring Boot中使用Swagger2构建RESTful APIs")
+                         .description("更多Spring Boot相关文章请关注：http://blog.didispace.com/")
+                         .termsOfServiceUrl("http://blog.didispace.com/")
+                         .contact("zk")
+                         .version("1.0")
+                         .build();
     }
 
 }

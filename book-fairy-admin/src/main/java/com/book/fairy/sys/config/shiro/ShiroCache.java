@@ -23,7 +23,7 @@ public class ShiroCache<K, V> implements Cache<K, V> {
     
     private static Logger logger = LoggerFactory.getLogger(ShiroCache.class);
     
-    private static final String REDIS_SHIRO_CACHE = "yz-shiro-cache:";
+    private static final String REDIS_SHIRO_CACHE = "zk-shiro-cache:";
     private String cacheKey;
     private RedisTemplate<K, V> redisTemplate;
     private long globExpire = 30;

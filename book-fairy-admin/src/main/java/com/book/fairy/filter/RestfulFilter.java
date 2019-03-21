@@ -25,9 +25,9 @@ import com.alibaba.fastjson.JSONObject;
  * 在参数中或者header里加参数login-token作为登陆凭证<br>
  * 参数值是登陆成功后的返回值中获取
  *
- * @author 何杨洲
- *         <p>
- *         2017年8月3日
+ * @author
+ *
+ *
  */
 public class RestfulFilter extends UserFilter {
 

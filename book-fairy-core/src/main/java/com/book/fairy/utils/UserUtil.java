@@ -13,6 +13,7 @@ import java.util.List;
 public class UserUtil {
 
     public static User getCurrentUser() {
+        // 设置shiro的session，开启一个线程加载列表，在列表中获取session
         User user = (User) getSession().getAttribute(UserConstants.LOGIN_USER);
 
         return user;
@@ -34,6 +35,7 @@ public class UserUtil {
     }
 
     public static Session getSession() {
+        // spring线程池中 SecurityUtils.getSubject().getSession() 会创建新的session
         Subject currentUser = SecurityUtils.getSubject();
         Session session = currentUser.getSession();
 

@@ -32,17 +32,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+/**
+ *  realm: 领域，相当于数据源，通过realm存取认证、授权相关数据
+ */
+
 public class MyShiroRealm extends AuthorizingRealm {
 
 	private static final Logger log = LoggerFactory.getLogger("adminLogger");
 
+	// 用于认证
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
 
 		String username = usernamePasswordToken.getUsername();
-		UserService userService = SpringUtil.getBean(UserService.class);
-		User user = userService.getUser(username);
+		UserService userService = SpringUtil.getBean(UserService.class); //  向spring的beanFactory动态地装载bean
+		User user = userService.getUser(username); // 通过用户名查询用户信息
 		if (user == null) {
 			throw new UnknownAccountException("用户名不存在");
 		}
@@ -64,11 +69,12 @@ public class MyShiroRealm extends AuthorizingRealm {
 		return authenticationInfo;
 	}
 
+	// 用于授权
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		log.debug("权限配置");
 
-
+        // 编程式：通过写if/else授权代码块完成
 		Subject subject = SecurityUtils.getSubject();
 		if (null != subject) {
 			Session session = subject.getSession();
@@ -80,12 +86,12 @@ public class MyShiroRealm extends AuthorizingRealm {
 		User user = UserUtil.getCurrentUser();
 		List<Role> roles = SpringUtil.getBean(RoleDao.class).listByUserId(user.getId());
 		Set<String> roleNames = roles.stream().map(Role::getName).collect(Collectors.toSet());
-		authorizationInfo.setRoles(roleNames);
-		List<Permission> permissionList = SpringUtil.getBean(PermissionDao.class).listByUserId(user.getId());
+		authorizationInfo.setRoles(roleNames); // 设置角色字符串信息
+		List<Permission> permissionList = SpringUtil.getBean(PermissionDao.class).listByUserId(user.getId()); // 根据人员ID获取他的权限信息列表
 		UserUtil.setPermissionSession(permissionList);
 		Set<String> permissions = permissionList.stream().filter(p -> !StringUtils.isEmpty(p.getPermission()))
 				.map(Permission::getPermission).collect(Collectors.toSet());
-		authorizationInfo.setStringPermissions(permissions);
+		authorizationInfo.setStringPermissions(permissions); // 设置Permission对象信息
 
 		return authorizationInfo;
 	}

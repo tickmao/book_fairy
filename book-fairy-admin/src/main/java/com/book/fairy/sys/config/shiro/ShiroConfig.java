@@ -30,7 +30,7 @@ public class ShiroConfig {
 	@Bean
 	public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-
+        //  securityManager: 安全管理器，主体进行认证和授权都是通过securityManager进行
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
 
 		// 拦截器.
@@ -42,19 +42,19 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/js/**", "anon");
 		filterChainDefinitionMap.put("/sys/login/**", "anon");
 		filterChainDefinitionMap.put("/files/*", "anon");
-
 		filterChainDefinitionMap.put("/swagger-ui.html", "anon");
 		filterChainDefinitionMap.put("/swagger-resources", "anon");
 		filterChainDefinitionMap.put("/v2/api-docs", "anon");
 		filterChainDefinitionMap.put("/swagger/**", "anon");
 		filterChainDefinitionMap.put("/swagger-resources/configuration/ui","anon");
 		filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");
-
 		filterChainDefinitionMap.put("/api/**", "anon");
 		filterChainDefinitionMap.put("/logout", "logout");
 		filterChainDefinitionMap.put("/**", "authc");
+
 		shiroFilterFactoryBean.setLoginUrl("/login.html");
 		shiroFilterFactoryBean.setSuccessUrl("/index.html");
+
 		LogoutFilter logoutFilter = new LogoutFilter();
 		logoutFilter.setRedirectUrl("/login.html");
 
