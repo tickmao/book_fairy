@@ -28,7 +28,7 @@ import com.alibaba.fastjson.JSONObject;
  */
 public class LogoutFilter extends org.apache.shiro.web.filter.authc.LogoutFilter {
 
-	private static final Logger log = LoggerFactory.getLogger("adminLogger");
+	private static final Logger log = LoggerFactory.getLogger("LogoutFilter");
 
 	@Override
 	protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {

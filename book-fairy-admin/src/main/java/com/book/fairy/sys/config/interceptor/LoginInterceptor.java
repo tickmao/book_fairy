@@ -14,82 +14,35 @@ import javax.servlet.http.HttpSession;
 public class LoginInterceptor implements HandlerInterceptor {
     Logger logger = org.slf4j.LoggerFactory.getLogger(LoginInterceptor.class);
 
+    /**
+     * 预处理回调方法，实现处理器的预处理（如检查登陆），第三个参数为响应的处理器，自定义Controller
+     * 返回值：true表示继续流程（如调用下一个拦截器或处理器）；false表示流程中断（如登录检查失败），
+     * 不会继续调用其他的拦截器或处理器，此时我们需要通过response来产生响应；
+     */
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-            throws Exception {
-
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
         String url = request.getRequestURI();        // 用户访问地址
         String token = request.getParameter("token");
         HttpSession session = request.getSession();
-
-        logger.info("LoginInterceptor 调用接口！================== Url:" + url + ";Token:"+token + ";SessionID:" + session.getId());
-
-        HttpServletRequest httpRequest=(HttpServletRequest)request;
-        String strBackUrl = "http://" + request.getServerName() + ":"  + request.getServerPort() + httpRequest.getContextPath()
-                + httpRequest.getServletPath() + "?" + (httpRequest.getQueryString());
-
-        /*try {
-            if(url.indexOf("/error")>-1){
-                logger.error("页面发生错误 跳转到 /error 页面中");
-                return true;
-            }
-
-            UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
-            if(null==userInfo && token!=null){//要进行验证 并重新生成token
-                Integer id = TokenHelper.getUserID(token);
-                SysUser sysUserNew = sysUserService.findByPrimaryKey(new Long(id));
-                if(null!=sysUserNew){
-                    logger.info("拦截了token!:"+token+";url:"+url);
-
-                    UserInfo userInfoNew = new UserInfo();
-                    userInfoNew.setId(sysUserNew.getId());
-                    userInfoNew.setName(sysUserNew.getName());
-                    userInfoNew.setIsValid(sysUserNew.getIsValid());
-                    userInfoNew.setType(sysUserNew.getType());
-                    userInfoNew.setHospitalId(sysUserNew.getHospitalId().intValue());
-                    userInfoNew.setRealName(sysUserNew.getRealName());
-                    userInfoNew.setIsadmin(sysUserNew.getIsadmin());
-                    userInfoNew.setHospitalName(sysUserNew.getHospitalName());
-
-                    WHospital wHospital = sHospitalService.findByPrimaryKey(sysUserNew.getHospitalId());
-                    System.out.println("拦截了token wHospital:"+ JSON.toJSONString(wHospital));
-
-                    String level = wHospital.getDiagnoselevel() == 1 ? "1" : "0";
-                    userInfoNew.setDiagnoseLevel(level);
-
-                    session.setAttribute("userInfo",userInfoNew);
-                    return true;
-                }else{
-                    logger.error("Session 失效！，请重新登录！==========Url"+url);
-                    return false;
-                }
-            }else if(null==userInfo && token==null){//无需token，就不需要验证
-                return true;
-            }
-        }catch (TokenException e) {
-            logger.error("Token 失效，原因：" + e.getMessage() + ";==========Url"+url);
-            e.printStackTrace();
-            JSONObject res = new JSONObject();
-            res.put("code", HttpServletResponse.SC_UNAUTHORIZED);
-            res.put("message", "Token 失效！");
-
-            response.setContentType("application/json;charset=UTF-8");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write(res.toJSONString());
-            return false;
-        }catch (Exception e) {
-            logger.error("Session 失效，原因：" + e.getMessage() + ";==========Url"+url);
-            e.printStackTrace();
-            return false;
-        }*/
+        logger.info("处理器拦截器 LoginInterceptor 调用接口 ********** Url:" + url + ";Token:"+token + ";SessionID:" + session.getId());
         return true;
     }
+
+    /**
+     * 后处理回调方法，实现处理器的后处理（但在渲染视图之前），
+     * 此时我们可以通过modelAndView（模型和视图对象）对模型数据进行处理或对视图进行处理，
+     * modelAndView也可能为null。
+     */
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
                            ModelAndView modelAndView) throws Exception {
     }
 
+    /**
+     * 整个请求处理完毕回调方法，即在视图渲染完毕时回调，如性能监控中我们可以在此记录结束时间并输出消耗时间，还可以进行一些资源清理，
+     * 类似于try-catch-finally中的finally，但仅调用处理器执行链中
+     */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
             throws Exception {

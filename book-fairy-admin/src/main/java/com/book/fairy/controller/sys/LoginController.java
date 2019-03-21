@@ -60,9 +60,10 @@ public class LoginController {
 	public User getLoginInfo() {
 		User user = UserUtil.getCurrentUser();
 
-		List<Role> roleList = roleDao.listByUserId(user.getId());
+		List<Role> roleList = roleDao.listByUserId(user.getId()); // 根据人员ID获取角色列表
 
 		String adminRole = "user";
+		// Java8新特性： anyMatch表示，判断的条件里，任意一个元素成功，返回true
 		if(roleList.stream().anyMatch(u->u.getId().longValue()==1)){
 			adminRole = "system";
 			user.setAdminRole(adminRole);

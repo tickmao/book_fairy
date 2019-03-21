@@ -16,16 +16,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 /**
- * springmvc异常处理
+ * 异常处理
  * 
- * @author 何杨洲
+ * @author
  *
  */
 
 @RestControllerAdvice
 public class ExceptionHandlerAdvice {
 
-	private static final Logger log = LoggerFactory.getLogger("adminLogger");
+	private static final Logger log = LoggerFactory.getLogger("异常处理 ExceptionHandlerAdvice");
 
 	@ExceptionHandler({ IllegalArgumentException.class })
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
