@@ -47,9 +47,9 @@ log:
 # ======================================================= mysql =======================================================
 mysqlConn:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/book?useUnicode=true&characterEncoding=UTF-8&useSSL=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+    url: jdbc:mysql://129.204.216.40:3306/book?useUnicode=true&characterEncoding=UTF-8&useSSL=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
     username: root
-    password: root
+    password: sxapp
 
 # ======================================================= druid =======================================================
 
