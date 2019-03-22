@@ -1,5 +1,6 @@
 package com.book.fairy.sys.config.shiro;
 
+import com.alibaba.fastjson.JSON;
 import com.book.fairy.sys.constants.UserConstants;
 import com.book.fairy.filter.LogoutFilter;
 import com.book.fairy.filter.RestfulFilter;
@@ -31,11 +32,14 @@ public class ShiroConfig {
 	public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         //  securityManager: 安全管理器，主体进行认证和授权都是通过securityManager进行
+		//  在ShiroFilterFactoryBean添加过滤器
+		// 必须设置 SecurityManager
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
 
 		// 拦截器.
 		Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
 
+		// 配置认证通过可以访问的地址
 		filterChainDefinitionMap.put("/css/**", "anon");
 		filterChainDefinitionMap.put("/fonts/**", "anon");
 		filterChainDefinitionMap.put("/img/**", "anon");
@@ -49,10 +53,20 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/swagger-resources/configuration/ui","anon");
 		filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");
 		filterChainDefinitionMap.put("/api/**", "anon");
+
+		// 配置退出过滤器,其中的具体的退出代码Shiro已经替我们实现了
 		filterChainDefinitionMap.put("/logout", "logout");
+
+		/*
+		 *	过滤链定义，从上向下顺序执行，一般将 /**放在最为下边,这是一个坑呢，一不小心代码就不好使了;
+		 *	authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问
+		 */
+
 		filterChainDefinitionMap.put("/**", "authc");
 
+		// 如果不设置默认会自动寻找Web工程根目录下的"/login.html"页面
 		shiroFilterFactoryBean.setLoginUrl("/login.html");
+		// 登录成功后要跳转的链接
 		shiroFilterFactoryBean.setSuccessUrl("/index.html");
 
 		LogoutFilter logoutFilter = new LogoutFilter();
@@ -64,15 +78,17 @@ public class ShiroConfig {
 		shiroFilterFactoryBean.getFilters().put("logout", logoutFilter);
 
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+
+		System.out.println(" 执行顺序 4 ：同其他框架一样，都有个切入点，这个核心Filter就是拦截所有请求 ShiroFilterFactoryBean 对象********" + shiroFilterFactoryBean);
 		return shiroFilterFactoryBean;
 	}
 
 	@Bean
 	public SecurityManager securityManager(EhCacheManager cacheManager) {
 		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-		securityManager.setRealm(myShiroRealm());
-		securityManager.setCacheManager(cacheManager);
-
+		securityManager.setRealm(myShiroRealm());  //设置realm. 　Realms：聚集一个或多个用户安全数据的数据源
+		securityManager.setCacheManager(cacheManager);  //注入缓存管理器;
+		System.out.println(" 执行顺序 3 ：安全管理器 DefaultWebSecurityManager 对象 ********" + securityManager);
 		return securityManager;
 	}
 
@@ -80,6 +96,27 @@ public class ShiroConfig {
 	public MyShiroRealm myShiroRealm() {
 		MyShiroRealm myShiroRealm = new MyShiroRealm();
 		myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+
+		System.out.println(" 执行顺序 2 ：自定义 Realm 数据源 MyShiroRealm 对象********" + JSON.toJSONString(myShiroRealm));
+
+		/**                {
+		 "authenticationCacheName": "com.book.fairy.sys.config.shiro.MyShiroRealm.authenticationCache",
+		 "authenticationCachingEnabled": false,
+		 "authenticationTokenClass": "org.apache.shiro.authc.UsernamePasswordToken",
+		 "authorizationCacheName": "com.book.fairy.sys.config.shiro.MyShiroRealm.authorizationCache",
+		 "authorizationCachingEnabled": true,
+		 "cachingEnabled": true,
+		 "credentialsMatcher": {
+		 "hashAlgorithmName": "md5",
+		 "hashIterations": 3,
+		 "hashSalted": false,
+		 "storedCredentialsHexEncoded": true
+		 },
+		 "name": "com.book.fairy.sys.config.shiro.MyShiroRealm_0",
+		 "permissionResolver": {}
+		 }
+		 *
+		 */
 
 		return myShiroRealm;
 	}
@@ -96,6 +133,15 @@ public class ShiroConfig {
 		hashedCredentialsMatcher.setHashAlgorithmName("md5");// 散列算法:这里使用MD5算法;
 		hashedCredentialsMatcher.setHashIterations(UserConstants.HASH_ITERATIONS);
 
+		System.out.println("执行顺序 1 ：认证匹配 HashedCredentialsMatcher 对象********" + JSON.toJSONString(hashedCredentialsMatcher));
+		/**
+		 *   {
+		       "hashAlgorithmName": "md5",
+		       "hashIterations": 3,
+		      "hashSalted": false,
+		      "storedCredentialsHexEncoded": true
+		 }
+		 */
 		return hashedCredentialsMatcher;
 	}
 

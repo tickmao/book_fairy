@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.alibaba.fastjson.JSON;
 import com.book.fairy.sys.dao.PermissionDao;
 import com.book.fairy.sys.dao.RoleDao;
 import com.book.fairy.sys.model.Permission;
@@ -40,20 +41,19 @@ public class MyShiroRealm extends AuthorizingRealm {
 
 	private static final Logger log = LoggerFactory.getLogger("adminLogger");
 
-	// 用于认证
+	// 用于认证 登录后台页面时
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
 
-		String username = usernamePasswordToken.getUsername();
+		String username = usernamePasswordToken.getUsername(); // 获取登录的用户名
 		UserService userService = SpringUtil.getBean(UserService.class); //  向spring的beanFactory动态地装载bean
 		User user = userService.getUser(username); // 通过用户名查询用户信息
 		if (user == null) {
 			throw new UnknownAccountException("用户名不存在");
 		}
 
-		if (!user.getPassword()
-				.equals(userService.passwordEncoder(new String(usernamePasswordToken.getPassword()), user.getSalt()))) {
+		if (!user.getPassword().equals(userService.passwordEncoder(new String(usernamePasswordToken.getPassword()), user.getSalt()))) {
 			throw new IncorrectCredentialsException("密码错误");
 		}
 
@@ -64,7 +64,9 @@ public class MyShiroRealm extends AuthorizingRealm {
 		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user, user.getPassword(),
 				ByteSource.Util.bytes(user.getSalt()), getName());
 
-		UserUtil.setUserSession(user);
+		UserUtil.setUserSession(user); // {"login_user":user}
+
+		System.out.println(" 用于认证 SimpleAuthenticationInfo 对象@@@@@@@@@@@@@@@@@@@" + JSON.toJSONString(authenticationInfo));
 
 		return authenticationInfo;
 	}
@@ -92,6 +94,8 @@ public class MyShiroRealm extends AuthorizingRealm {
 		Set<String> permissions = permissionList.stream().filter(p -> !StringUtils.isEmpty(p.getPermission()))
 				.map(Permission::getPermission).collect(Collectors.toSet());
 		authorizationInfo.setStringPermissions(permissions); // 设置Permission对象信息
+
+		System.out.println("用于授权 SimpleAuthorizationInf 对象@@@@@@@@@@@@@@@@@@@" + JSON.toJSONString(authorizationInfo));
 
 		return authorizationInfo;
 	}

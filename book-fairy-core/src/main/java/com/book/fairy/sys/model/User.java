@@ -172,4 +172,26 @@ public class User extends BaseEntity<Long> {
 	public void setAdminRole(String adminRole) {
 		this.adminRole = adminRole;
 	}
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"username='" + username + '\'' +
+				", password='" + password + '\'' +
+				", salt='" + salt + '\'' +
+				", nickname='" + nickname + '\'' +
+				", headImgUrl='" + headImgUrl + '\'' +
+				", phone='" + phone + '\'' +
+				", telephone='" + telephone + '\'' +
+				", email='" + email + '\'' +
+				", birthday=" + birthday +
+				", sex=" + sex +
+				", status=" + status +
+				", userType=" + userType +
+				", businessAreaId='" + businessAreaId + '\'' +
+				", businessHallId='" + businessHallId + '\'' +
+				", employeeId='" + employeeId + '\'' +
+				", adminRole='" + adminRole + '\'' +
+				'}';
+	}
 }
