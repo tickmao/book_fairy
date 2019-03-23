@@ -5,8 +5,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.book.fairy.annotation.LogAnnotation;
 import com.book.fairy.core.Result;
 import com.book.fairy.sys.dto.Token;
+import com.book.fairy.sys.dto.UserDto;
 import com.book.fairy.sys.model.User;
 import com.book.fairy.sys.service.TokenManager;
+import com.book.fairy.sys.service.UserService;
 import com.book.fairy.utils.UserUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,8 +35,11 @@ public class SysController {
     @Autowired
     private TokenManager tokenManager;
 
+    @Autowired
+    private UserService userService;
+
     @LogAnnotation
-    @ApiOperation(value = "Restful方式登陆,前后端分离时登录接口", notes = "Restful方式登陆,前后端分离时登录接口", response = Result.class)
+    @ApiOperation(value = "门户页面登录接口", notes = "门户页面登录接口", response = Result.class)
     @PostMapping("/login")
     public Result restfulLogin(@RequestBody JSONObject jsonParam) {
         String username = jsonParam.getString("username");
@@ -57,6 +62,18 @@ public class SysController {
         userInfo.put("employeeId", user.getEmployeeId());
 
         return Result.success("登录成功！", userInfo);
+    }
+
+
+    @LogAnnotation
+    @ApiOperation(value = "门户页面注册接口", notes = "门户页面注册接口", response = Result.class)
+    @PostMapping("/registe")
+    public User saveUser(@RequestBody UserDto userDto) {
+        User u = userService.getUser(userDto.getUsername());
+        if (u != null) {
+            throw new IllegalArgumentException(userDto.getUsername() + "已存在");
+        }
+        return userService.saveUser(userDto);
     }
 
 }

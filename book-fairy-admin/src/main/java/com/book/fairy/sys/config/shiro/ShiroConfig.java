@@ -52,7 +52,10 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/swagger/**", "anon");
 		filterChainDefinitionMap.put("/swagger-resources/configuration/ui","anon");
 		filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");
-		filterChainDefinitionMap.put("/api/**", "anon");
+		//filterChainDefinitionMap.put("/api/**", "authc");
+
+		// 注册账号免登陆
+		filterChainDefinitionMap.put("/api/sys/registe", "anon");
 
 		// 配置退出过滤器,其中的具体的退出代码Shiro已经替我们实现了
 		filterChainDefinitionMap.put("/logout", "logout");

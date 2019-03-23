@@ -18,13 +18,10 @@ import org.springframework.http.HttpStatus;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- * 退出<br>
- * web退出和restful方式退出<br>
- * 后者会删除缓存的token
- * 
- * @author 何杨洲
+ *    用户退出系统之前没需要清除用户数据和关闭连接，防止垃圾数据堆积，
+ *    shiro提供了LogoutFilter过滤器，我们可以继承LogoutFilter，
+ *    重写preHandle方法，实现清除缓存功能
  *
- *         2017年8月13日
  */
 public class LogoutFilter extends org.apache.shiro.web.filter.authc.LogoutFilter {
 
@@ -57,7 +54,6 @@ public class LogoutFilter extends org.apache.shiro.web.filter.authc.LogoutFilter
 	}
 
 	private static String SUCCESS_INFO = JSONObject.toJSONString(new ResponseInfo(HttpStatus.OK.value() + "", "退出成功"));
-	private static String ERR_INFO = JSONObject
-			.toJSONString(new ResponseInfo(HttpStatus.BAD_REQUEST.value() + "", "退出失败,token不存在"));
+	private static String ERR_INFO = JSONObject.toJSONString(new ResponseInfo(HttpStatus.BAD_REQUEST.value() + "", "退出失败,token不存在"));
 
 }
