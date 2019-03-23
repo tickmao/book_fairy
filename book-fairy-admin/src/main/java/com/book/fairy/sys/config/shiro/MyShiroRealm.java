@@ -13,6 +13,8 @@ import com.book.fairy.sys.model.User;
 import com.book.fairy.sys.service.UserService;
 import com.book.fairy.utils.SpringUtil;
 import com.book.fairy.utils.UserUtil;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -41,17 +43,27 @@ public class MyShiroRealm extends AuthorizingRealm {
 
 	private static final Logger log = LoggerFactory.getLogger("adminLogger");
 
-	// 用于认证 登录后台页面时
+	// 用于认证 登录后台页面时 自定认证的Realm
 	@Override
-	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-		UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
+	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
 
-		String username = usernamePasswordToken.getUsername(); // 获取登录的用户名
+		//实际上这个token 是从SecurityUtils.getSubject().login(usernamePasswordToken)传过来的
+		//两个token的引用都是一样的
+		UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) authcToken;
+
+		System.out.println("验证当前Subject时获取到token为" + ReflectionToStringBuilder.toString(usernamePasswordToken, ToStringStyle.MULTI_LINE_STYLE));
+
 		UserService userService = SpringUtil.getBean(UserService.class); //  向spring的beanFactory动态地装载bean
-		User user = userService.getUser(username); // 通过用户名查询用户信息
+
+		// 从数据库中获取用户名对应的user
+		User user = userService.getUser(usernamePasswordToken.getUsername()); // 通过用户名查询用户信息
 		if (user == null) {
 			throw new UnknownAccountException("用户名不存在");
 		}
+
+		// user.getSalt()   干扰数据 盐 防破解
+        // 利用Apache shiro SimpleHash 加密字符串
+		// userService.passwordEncoder(new String(usernamePasswordToken.getPassword()), user.getSalt()))
 
 		if (!user.getPassword().equals(userService.passwordEncoder(new String(usernamePasswordToken.getPassword()), user.getSalt()))) {
 			throw new IncorrectCredentialsException("密码错误");
@@ -59,10 +71,13 @@ public class MyShiroRealm extends AuthorizingRealm {
 
 		if (user.getStatus() != User.Status.VALID) {
 			throw new IncorrectCredentialsException("无效状态，请联系管理员");
+		} else if(user.getStatus() == User.Status.DISABLED){
+			throw new IncorrectCredentialsException("禁用状态，请联系管理员");
+		} else if(user.getStatus() == User.Status.LOCKED){
+			throw new IncorrectCredentialsException("被锁状态，请联系管理员");
 		}
 
-		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user, user.getPassword(),
-				ByteSource.Util.bytes(user.getSalt()), getName());
+		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user, user.getPassword(),ByteSource.Util.bytes(user.getSalt()), getName());
 
 		UserUtil.setUserSession(user); // {"login_user":user}
 

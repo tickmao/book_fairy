@@ -13,7 +13,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
  * @see EhCacheTokenManager
  * @see RedisTokenManager
  * 
- * @author yz-he
+ * @author
  *
  *         2017年8月4日
  */

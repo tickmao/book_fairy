@@ -52,8 +52,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String passwordEncoder(String credentials, String salt) {
-		Object object = new SimpleHash("MD5", credentials, salt, UserConstants.HASH_ITERATIONS);
+	public String passwordEncoder(String pswd, String salt) {
+		Object object = new SimpleHash("MD5", pswd, salt, UserConstants.HASH_ITERATIONS);
 		return object.toString();
 	}
 

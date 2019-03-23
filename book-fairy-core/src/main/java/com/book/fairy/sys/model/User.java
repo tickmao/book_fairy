@@ -21,6 +21,9 @@ public class User extends BaseEntity<Long> {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date birthday;
 	private Integer sex;
+	/**
+	 *   0 ： 禁用  1：有效  2：锁着的
+	 */
 	private Integer status;
 
 	/**

@@ -28,7 +28,7 @@ import java.util.UUID;
 public class EhCacheTokenManager implements TokenManager {
 
 	@Autowired
-	private EhCacheManager cacheManager;
+	private EhCacheManager ehCacheManager;
 	/**
 	 * token过期秒数
 	 */
@@ -37,7 +37,7 @@ public class EhCacheTokenManager implements TokenManager {
 
 	@Override
 	public Token saveToken(UsernamePasswordToken usernamePasswordToken) {
-		Cache cache = cacheManager.getCacheManager().getCache("login_user_tokens");
+		Cache cache = ehCacheManager.getCacheManager().getCache("login_user_tokens");
 
 		String key = UUID.randomUUID().toString();
 		Element element = new Element(key, usernamePasswordToken);
@@ -49,7 +49,7 @@ public class EhCacheTokenManager implements TokenManager {
 
 	@Override
 	public UsernamePasswordToken getToken(String key) {
-		Cache cache = cacheManager.getCacheManager().getCache("login_user_tokens");
+		Cache cache = ehCacheManager.getCacheManager().getCache("login_user_tokens");
 		Element element = cache.get(key);
 		if (element != null) {
 			UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) element.getValue();
@@ -61,7 +61,7 @@ public class EhCacheTokenManager implements TokenManager {
 
 	@Override
 	public boolean deleteToken(String key) {
-		Cache cache = cacheManager.getCacheManager().getCache("login_user_tokens");
+		Cache cache = ehCacheManager.getCacheManager().getCache("login_user_tokens");
 		return cache.remove(key);
 	}
 }

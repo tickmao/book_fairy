@@ -41,12 +41,12 @@ public class SysController {
         String password = jsonParam.getString("password");
 
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password);
+
+        // 开始进入shiro的认证流程
         SecurityUtils.getSubject().login(usernamePasswordToken);
 
         Token token = tokenManager.saveToken(usernamePasswordToken);
         User user = UserUtil.getCurrentUser();
-
-        System.out.println("user:" + JSON.toJSONString(user));
 
         Map<String, String> userInfo = new HashMap<>();
         userInfo.put("token", token.getToken());

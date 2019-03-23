@@ -92,6 +92,14 @@ public class ShiroConfig {
 		return securityManager;
 	}
 
+	/**
+	 * 将hashedCredentialsMatcher赋值给myRealm，myRealm间接继承了AuthenticatingRealm，
+	 * 其在调用getAuthenticationInfo 方法获取到AuthenticationInfo 信息后， 会使用
+	 * hashedCredentialsMatcher 来验证凭据是否匹配，如果不匹配将抛出IncorrectCredentialsException异常。
+	 *
+	 * @return
+	 */
+
 	@Bean
 	public MyShiroRealm myShiroRealm() {
 		MyShiroRealm myShiroRealm = new MyShiroRealm();
@@ -123,7 +131,10 @@ public class ShiroConfig {
 
 	/**
 	 * 凭证匹配器
-	 * 
+	 * HashedCredentialsMatcher实现密码验证服务：Shiro 提供了CredentialsMatcher 的散列实现HashedCredentialsMatcher，
+	 * 和之前的PasswordMatcher不同的是，它只用于密码验证，且可以提供自己的盐，而不是随机生成盐，
+	 * 且生成密码散列值的算法需要自己写，因为能提供自己的盐。
+     *
 	 * @return
 	 */
 	@Bean
