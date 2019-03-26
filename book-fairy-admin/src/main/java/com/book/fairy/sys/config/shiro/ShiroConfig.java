@@ -55,7 +55,8 @@ public class ShiroConfig {
 		//filterChainDefinitionMap.put("/api/**", "authc");
 
 		// 注册账号免登陆
-		filterChainDefinitionMap.put("/api/sys/registe", "anon");
+		filterChainDefinitionMap.put("/api/sys/**", "anon");
+
 
 		// 配置退出过滤器,其中的具体的退出代码Shiro已经替我们实现了
 		filterChainDefinitionMap.put("/logout", "logout");
