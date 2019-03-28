@@ -39,7 +39,6 @@
         <module>book-fairy-common</module>
         <module>book-fairy-core</module>
         <module>book-fairy-admin</module>
-        <!--<module>business-hall-file</module>-->
     </modules>
 
     <!--申明依赖关系-->

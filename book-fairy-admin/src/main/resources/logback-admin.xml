@@ -5,10 +5,11 @@
 	<springProperty name="mylevel" source="log.level.my" />
 	<springProperty name="maxFileSize" source="log.maxsize" />
 
+	<!-- ConsoleAppender 控制台输出日志 -->
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<pattern>%d [%thread] %-5level %logger{50} -[%file:%line]- %msg%n
-			</pattern>
+			<!--<pattern>%d [%thread] %-5level %logger{50} -[%file:%line]- %msg%n</pattern>-->
+			<pattern>%black(控制台-) %red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{50}) - %msg%n</pattern>
 			<charset>UTF-8</charset>
 		</encoder>
 	</appender>
@@ -27,6 +28,8 @@
 		</rollingPolicy>
 	</appender>
 
+	<!-- ERROR级别日志 -->
+	<!-- 滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 RollingFileAppender -->
 	<appender name="errorLog"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${logFile}.error</file>
