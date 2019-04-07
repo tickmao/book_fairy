@@ -10,7 +10,7 @@
 
 ![书仙](https://ws3.sinaimg.cn/large/006tNc79ly1g1u6huvtajj31bp0njn7q.jpg)
 
-## ToDoLis
+## ToDoList
 
 - [ ] 登录注册 
 - [ ] 书库 
@@ -22,9 +22,7 @@
 
 ## 声明
 
-仅用于学习用途，如有侵权请联系删除。E-mail：muouji@gmailcom
-
-
+仅用于学习用途，如有侵权请联系删除。E-mail：[lyle.lypm@gmail.com](mailto:lyle.lypm@gmail.com)
 
 ## 参与我们
 
