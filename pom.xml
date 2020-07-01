@@ -30,7 +30,7 @@
         <commons-dbcp2>2.1.1</commons-dbcp2>
         <httpclient.version2>4.5.3</httpclient.version2>
         <poi.version>3.17</poi.version>
-        <quartz.version>2.3.0</quartz.version>
+        <quartz.version>2.3.2</quartz.version>
         <shiro.version>1.3.2</shiro.version>
         <!--<tomcat.version>9.0.0.M17</tomcat.version>-->
     </properties>
